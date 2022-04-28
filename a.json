@@ -1,0 +1,32 @@
+"snippet": {
+  "publishedAt": "2022-04-25T18:45:21Z",
+  "channelId": "UCYB7MX-Ek-ZoJ8IDdA1fVCQ",
+  "title": "【Huan】 能裝18顆風扇的頂級全塔旗艦: Cooler Master HAF700 EVO",
+  "description": "",
+  "thumbnails": {
+    "default": {
+      "url": "https://i.ytimg.com/vi/avBKMknCxPo/default.jpg",
+      "width": 120,
+      "height": 90
+    },
+    "medium": {
+      "url": "https://i.ytimg.com/vi/avBKMknCxPo/mqdefault.jpg",
+      "width": 320,
+      "height": 180
+    },
+    "high": {
+      "url": "https://i.ytimg.com/vi/avBKMknCxPo/hqdefault.jpg",
+      "width": 480,
+      "height": 360
+    }
+  },
+  "channelTitle": "harry kuo",
+  "playlistId": "PLt5PbESB9wVvb06sxWBtmLxkuGIDGjdHI",
+  "position": 0,
+  "resourceId": {
+    "kind": "youtube#video",
+    "videoId": "avBKMknCxPo"
+  },
+  "videoOwnerChannelTitle": "Huan",
+  "videoOwnerChannelId": "UCpmx8TiMv9yR1ncyldGyyVA"
+}
