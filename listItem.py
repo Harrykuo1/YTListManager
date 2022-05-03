@@ -101,3 +101,34 @@ class listItem:
 
         self.listItens = resObj
         return resObj
+
+    def changeOrder(self, playListId, targetName, targetOrder):
+        request = self.youtube.playlistItems().list(
+            part = "snippet",
+            playlistId = playListId,
+        )
+        response = request.execute()
+
+        for item in response["items"]:
+            if(targetName == item["snippet"]["title"]):
+                targetId = item["id"]
+                vidioId = item["snippet"]["resourceId"]["videoId"]
+
+        request = self.youtube.playlistItems().update(
+            part="snippet",
+            body={
+            "id": targetId,
+            "snippet": {
+                "playlistId": playListId,
+                "position": targetOrder,
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": vidioId,
+                }
+            }
+            }
+        )
+        response = request.execute()
+
+
+        

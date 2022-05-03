@@ -8,13 +8,13 @@ from playList import playList
 from listItem import listItem
 import re
 import urllib.parse
-
+from pytube import extract
 
 scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
 
 def youtube_parser(url):
-    try:
+    """try:
         query = urllib.parse.urlparse(url)
         if query.hostname == 'youtu.be':
             return query.path[1:]
@@ -28,10 +28,14 @@ def youtube_parser(url):
                 return query.path.split('/')[2]
     except:
         pass
-    return False
+    return False"""
+    id = extract.video_id(url)
+    return id
 
 
 def main():
+    test = input()
+    print(youtube_parser(test))
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
@@ -163,6 +167,19 @@ def main():
             for resKey, resValue in resObj.items():
                 print(i, resKey, resValue)
                 i += 1
+
+        elif(mode == 'changeOrder'):
+            targetList = input("請輸入欲change影片所在清單：")
+            targetName = input("input targetname")
+            targetOrder = input("input targetOrder")
+            if(targetList in myPlayList.playLists):
+                playListId = myPlayList.playLists[targetList]
+            else:
+                print("播放清單%s不存在" % targetList)
+                continue
+
+            resObj = myListItem.changeOrder(playListId, targetName, targetOrder)
+            print("Modify successful")
 
         else:
             print("無此功能")
