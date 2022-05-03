@@ -5,10 +5,31 @@ import googleapiclient.discovery
 import googleapiclient.errors
 from decouple import config
 from playList import playList
+from listItem import listItem
+import re
+import urllib.parse
 
-mode = ''
 
 scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
+
+
+def youtube_parser(url):
+    try:
+        query = urllib.parse.urlparse(url)
+        if query.hostname == 'youtu.be':
+            return query.path[1:]
+        if query.hostname in ('www.youtube.com', 'youtube.com'):
+            if query.path == '/watch':
+                p = urllib.parse.parse_qs(query.query)
+                return p['v'][0]
+            if query.path[:7] == '/embed/':
+                return query.path.split('/')[2]
+            if query.path[:3] == '/v/':
+                return query.path.split('/')[2]
+    except:
+        pass
+    return False
+
 
 def main():
     # Disable OAuthlib's HTTPS verification when running locally.
@@ -29,25 +50,122 @@ def main():
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials
     )
-    myPlayList = playList()
+
+    myPlayList = playList(youtube)
+    myListItem = listItem(youtube)
+
+    mode = ''
 
     while(mode != 'close'):
+        print()
         mode = input("輸入功能：")
+        mode = mode.replace(' ', '')
+
         if(mode == 'help'):
             with open('help.txt', 'r') as helpFile:
                 print(helpFile.read())
                 print()
 
         elif(mode == 'showList'):
-            request = showList(youtube)
-        elif(mode == ''):
-            pass
-        elif(mode == ''):
-            pass
+            resObj = myPlayList.showList()
+            print("共有%d個播放清單" % len(resObj))
+            i = 1
+            for resKey, resValue in resObj.items():
+                print(i, resKey, resValue)
+                i += 1
 
-    response = request.execute()
+        elif(mode == 'addList'):
+            title = input("請輸入新增播放清單名稱：")
+            myPlayList.addList(title)
+            print("新增播放清單%s成功" % title)
 
-    print(response)
+        elif(mode == 'delList'):
+            title = input("請輸入欲刪除播放清單名稱：")
+            if(title in myPlayList.playLists):
+                myPlayList.delList(title)
+                print("刪除播放清單%s成功" % title)
+            else:
+                print("刪除失敗，播放清單%s不存在" % title)
+
+        elif(mode == 'showItem'):
+            title = input("請輸入欲列出的播放清單成員：")
+            if(title in myPlayList.playLists):
+                playListId = myPlayList.playLists[title]
+                resObj = myListItem.showItem(playListId)
+                print("共有%d個影片" % len(resObj))
+                i = 1
+                for resKey, resValue in resObj.items():
+                    print(i, resKey, resValue)
+                    i += 1
+            else:
+                print("列出失敗，播放清單%s不存在" % title)
+
+        elif(mode == 'addItem'):
+            vidioUrl = input("請輸入欲新增影片網址：")
+            vidioId = youtube_parser(vidioUrl)
+            if(vidioId == False):
+                print("影片網址格式錯誤")
+                continue
+            targetList = input("請輸入儲存目標清單：")
+            if(targetList in myPlayList.playLists):
+                playListId = myPlayList.playLists[targetList]
+                myListItem.addItem(playListId, vidioId)
+                print("新增成功")
+            else:
+                print("列出失敗，播放清單%s不存在" % targetList)
+
+        elif(mode == 'delItemByUrl'):
+            targetList = input("請輸入欲刪除影片所在清單：")
+            if(targetList in myPlayList.playLists):
+                playListId = myPlayList.playLists[targetList]
+            else:
+                print("播放清單%s不存在" % targetList)
+                continue
+
+            vidioUrl = input("請輸入欲刪除影片網址：")
+            vidioId = youtube_parser(vidioUrl)
+            if(vidioId == False):
+                print("影片網址格式錯誤")
+                continue
+
+            status = myListItem.delItemByVidioId(playListId, vidioId)
+            if(status == False):
+                print("查無此影片")
+            else:
+                print("刪除成功")
+
+        elif(mode == 'delItemByName'):
+            targetList = input("請輸入欲刪除影片所在清單：")
+            if(targetList in myPlayList.playLists):
+                playListId = myPlayList.playLists[targetList]
+            else:
+                print("播放清單%s不存在" % targetList)
+                continue
+
+            vidioName = input("請輸入欲刪除影片名稱：")
+            status = myListItem.delItemByName(playListId, vidioName)
+            if(status == False):
+                print("查無此影片")
+            else:
+                print("刪除成功")
+
+        elif(mode == 'searchItem'):
+            targetList = input("請輸入欲查詢影片所在清單：")
+            if(targetList in myPlayList.playLists):
+                playListId = myPlayList.playLists[targetList]
+            else:
+                print("播放清單%s不存在" % targetList)
+                continue
+            keyword = input("請輸入關鍵字：")
+            resObj = myListItem.searchItem(playListId, keyword)
+            print("共有%d個影片" % len(resObj))
+            i = 1
+            for resKey, resValue in resObj.items():
+                print(i, resKey, resValue)
+                i += 1
+
+        else:
+            print("無此功能")
 
 
 if __name__ == "__main__":
@@ -55,5 +173,3 @@ if __name__ == "__main__":
 
 
 # 4/1AX4XfWjHfSARjUVWdxE_hsKzyK4aykSZq09-nvNoKfud1EqdTgWkFV0tD1Y
-
-

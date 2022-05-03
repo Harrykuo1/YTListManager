@@ -1,0 +1,53 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "QsEZ0126yXfOXHwe_iSNlExoveo",
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "q8Ca12APNN91Ss4n4i6oMKFOJOM",
+      "id": "iWdPhtpOMIc",
+      "snippet": {
+        "publishedAt": "2021-12-22T09: 05: 59Z",
+        "channelId": "UCpmx8TiMv9yR1ncyldGyyVA",
+        "title": "【Huan】從組電腦倒灌系統的完整教學分享! (intel LGA1700 & Windows 11版本)",
+        "description": "這次所使用的配備清單:\n\nCPU: Intel Core i9-12900K\nCooler: Cooler Master PL360 FLUX\nMB: ASRock Z690 TAICHI\nRAM: Kingston FURY DDR5 5200MHz 16GB*2\nSSD: 巨蟒 i4 1TB\nGPU: NVIDIA RTX 3080\nCASE: Cooler Master HAF500\nPSU: Cooler Master GX850 GOLD\n\n\n\n\n蟲洞底家:\n00: 00 開頭\n00: 56 零組件解說\n04: 19 電腦組裝: CPU\n05: 40 電腦組裝: 記憶體\n07: 08 電腦組裝: M.2 SSD\n08: 03 電腦組裝: CPU扣具\n08: 59 電腦組裝: 主機板安裝\n10: 29 電腦組裝: 電源供應器安裝\n11: 24 電腦組裝: 電源線&I/O線\n14: 18 電腦組裝: 散熱器安裝\n16: 57 電腦組裝: 理線\n19: 46 電腦組裝: 顯示卡\n21: 29 BIOS介面&XMP設定\n23: 23 Windows 11安裝\n26: 46 結尾",
+        "thumbnails": {
+          "default": {
+            "url": "https: //i.ytimg.com/vi/iWdPhtpOMIc/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/iWdPhtpOMIc/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/iWdPhtpOMIc/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/iWdPhtpOMIc/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/iWdPhtpOMIc/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Huan",
+        "categoryId": "20",
+        "liveBroadcastContent": "none",
+        "localized": {
+          "title": "【Huan】從組電腦倒灌系統的完整教學分享! (intel LGA1700 & Windows 11版本)",
+          "description": "這次所使用的配備清單:\n\nCPU: Intel Core i9-12900K\nCooler: Cooler Master PL360 FLUX\nMB: ASRock Z690 TAICHI\nRAM: Kingston FURY DDR5 5200MHz 16GB*2\nSSD: 巨蟒 i4 1TB\nGPU: NVIDIA RTX 3080\nCASE: Cooler Master HAF500\nPSU: Cooler Master GX850 GOLD\n\n\n\n\n蟲洞底家:\n00:00 開頭\n00:56 零組件解說\n04:19 電腦組裝: CPU\n05:40 電腦組裝: 記憶體\n07:08 電腦組裝: M.2 SSD\n08:03 電腦組裝: CPU扣具\n08:59 電腦組裝: 主機板安裝\n10:29 電腦組裝: 電源供應器安裝\n11:24 電腦組裝: 電源線&I/O線\n14:18 電腦組裝: 散熱器安裝\n16:57 電腦組裝: 理線\n19:46 電腦組裝: 顯示卡\n21:29 BIOS介面&XMP設定\n23:23 Windows 11安裝\n26:46 結尾"
+        },
+        "defaultAudioLanguage": "zh-TW"
+      }
+    }
+  ],
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 1 }
+}
