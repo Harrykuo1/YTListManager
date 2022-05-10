@@ -16,8 +16,11 @@ class listItem:
         response = request.execute()
 
         resObj = dict()
-
+        print("共有"+str(len(response["items"]))+"個影片")
+        index = 1
         for list in response["items"]:
+            print(str(index)+". "+list["snippet"]["title"])
+            index+=1
             resObj[list["snippet"]["title"]] = list["snippet"]["resourceId"]["videoId"]
 
         self.listItens = resObj
@@ -92,13 +95,25 @@ class listItem:
         response = request.execute()
 
         resObj = dict()
-
+        arr = []
         for list in response["items"]:
             cmpTitle = list["snippet"]["title"].lower()
             cmpTitle = cmpTitle.replace(" ", "")
+            keyword = keyword.lower()
+            keyword = keyword.replace(" ", "")
+
             if(keyword in cmpTitle):
+                """print("@@"+keyword)
+                print("##"+cmpTitle)"""
+                arr.append(list["snippet"]["title"])
                 resObj[list["snippet"]["title"]] = list["snippet"]["resourceId"]["videoId"]
 
+        print("共有"+str(len(arr))+"個影片")
+        index = 1
+        for i in arr:
+            print(str(index)+". "+i)
+            index+=1
+            
         self.listItens = resObj
         return resObj
 
@@ -129,6 +144,8 @@ class listItem:
             }
         )
         response = request.execute()
+
+
 
 
         

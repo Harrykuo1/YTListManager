@@ -12,6 +12,14 @@ from pytube import extract
 
 scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
+def youtubeParser(url):
+    regex = re.compile(r'(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be)/(watch\?v=|embed/|v/|.+\?v=)?(?P<id>[A-Za-z0-9\-=_]{11})')
+
+    match = regex.match(url)
+
+    if not match:
+        return('no match')
+    return (match.group('id'))
 
 def youtube_parser(url):
     """try:
@@ -34,8 +42,6 @@ def youtube_parser(url):
 
 
 def main():
-    test = input()
-    print(youtube_parser(test))
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
@@ -96,11 +102,11 @@ def main():
             if(title in myPlayList.playLists):
                 playListId = myPlayList.playLists[title]
                 resObj = myListItem.showItem(playListId)
-                print("共有%d個影片" % len(resObj))
+                """print("共有%d個影片" % len(resObj))
                 i = 1
                 for resKey, resValue in resObj.items():
                     print(i, resKey, resValue)
-                    i += 1
+                    i += 1"""
             else:
                 print("列出失敗，播放清單%s不存在" % title)
 
@@ -162,11 +168,11 @@ def main():
                 continue
             keyword = input("請輸入關鍵字：")
             resObj = myListItem.searchItem(playListId, keyword)
-            print("共有%d個影片" % len(resObj))
+            """print("共有%d個影片" % len(resObj))
             i = 1
             for resKey, resValue in resObj.items():
                 print(i, resKey, resValue)
-                i += 1
+                i += 1"""
 
         elif(mode == 'changeOrder'):
             targetList = input("請輸入欲change影片所在清單：")
@@ -181,6 +187,80 @@ def main():
             resObj = myListItem.changeOrder(playListId, targetName, targetOrder)
             print("Modify successful")
 
+        elif(mode == "readFile"):
+            txt = input("請輸入檔名")
+            file = open(txt+".txt", 'r')
+            while True:
+                cmd =  file.readline()
+                arr = cmd.split()
+                if(arr[0] == 'end'):
+                    break
+                elif(arr[0] == 'add'):
+                    targetList = arr[1]
+                    vidioUrl = arr[2]
+                    vidioId = youtube_parser(vidioUrl)
+                    if(vidioId == False):
+                        print("影片網址格式錯誤")
+                        continue
+                    if(targetList in myPlayList.playLists):
+                        playListId = myPlayList.playLists[targetList]
+                        myListItem.addItem(playListId, vidioId)
+                        print("新增成功")
+                    else:
+                        print("列出失敗，播放清單%s不存在" % targetList)
+                    
+                elif(arr[0] == 'del'):
+                    targetList = arr[1]
+                    if(targetList in myPlayList.playLists):
+                        playListId = myPlayList.playLists[targetList]
+                    else:
+                        print("播放清單%s不存在" % targetList)
+                        continue
+
+                    vidioUrl = arr[2]
+                    vidioId = youtube_parser(vidioUrl)
+                    if(vidioId == False):
+                        print("影片網址格式錯誤")
+                        continue
+
+                    status = myListItem.delItemByVidioId(playListId, vidioId)
+                    if(status == False):
+                        print("查無此影片")
+                    else:
+                        print("刪除成功")
+                elif(arr[0] == 'move'):
+                    targetList = arr[2]
+                    vidioUrl = arr[3]
+                    vidioId = youtube_parser(vidioUrl)
+                    if(vidioId == False):
+                        print("影片網址格式錯誤")
+                        continue
+                    if(targetList in myPlayList.playLists):
+                        playListId = myPlayList.playLists[targetList]
+                        myListItem.addItem(playListId, vidioId)
+                        #print("新增成功")
+                    else:
+                        print("列出失敗，播放清單%s不存在" % targetList)
+                    #
+                    targetList = arr[1]
+                    if(targetList in myPlayList.playLists):
+                        playListId = myPlayList.playLists[targetList]
+                    else:
+                        print("播放清單%s不存在" % targetList)
+                        continue
+
+                    vidioUrl = arr[3]
+                    vidioId = youtube_parser(vidioUrl)
+                    if(vidioId == False):
+                        print("影片網址格式錯誤")
+                        continue
+
+                    status = myListItem.delItemByVidioId(playListId, vidioId)
+                    if(status == False):
+                        print("查無此影片")
+                    else:
+                        print("搬移成功")
+                    
         else:
             print("無此功能")
 
